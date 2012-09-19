@@ -157,7 +157,7 @@ OSD::OSD(MythPlayer *player, QObject *parent, MythPainter *painter)
     m_fontStretch(100), m_savedFontStretch(100),
     m_FunctionalType(kOSDFunctionalType_Default), m_FunctionalWindow(QString())
 {
-    SetTimeouts(3000, 5000, 10000);
+    SetTimeouts(1500, 3500, 10000);
 }
 
 OSD::~OSD()
