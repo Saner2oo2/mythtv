@@ -1028,8 +1028,8 @@ bool RingBuffer::WaitForReadsAllowed(void)
     while (!readsallowed && !stopreads &&
            !request_pause && !commserror && readaheadrunning)
     {
-        generalWait.wait(&rwlock, 2000);
-        if (!readsallowed && t.elapsed() > 2000)
+        generalWait.wait(&rwlock, 3000);
+        if (!readsallowed && t.elapsed() > 3000)
         {
             LOG(VB_GENERAL, LOG_WARNING, LOC +
                 "Taking too long to be allowed to read..");
@@ -1084,11 +1084,9 @@ bool RingBuffer::WaitForAvail(int count)
             int elapsed = t.elapsed();
             if (elapsed > 500 && low_buffers && avail >= fill_min)
                 count = avail;
-            else if  (((elapsed >  500) && (elapsed < 750)) ||
-                     ((elapsed > 1000) && (elapsed < 1250)) ||
-                     ((elapsed > 2000) && (elapsed < 2250)) ||
-                     ((elapsed > 4000) && (elapsed < 4250)) ||
-                     ((elapsed > 8000) && (elapsed < 8250)) ||
+            else if  (((elapsed > 3000) && (elapsed < 3250)) ||
+                     ((elapsed > 4000) && (elapsed < 4250))  ||
+                     ((elapsed > 8000) && (elapsed < 8250))  ||
                      ((elapsed > 9000)))
             {
                 LOG(VB_GENERAL, LOG_INFO, LOC + "Waited " +
