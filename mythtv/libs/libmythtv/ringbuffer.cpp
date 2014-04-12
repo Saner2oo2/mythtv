@@ -1028,8 +1028,8 @@ bool RingBuffer::WaitForReadsAllowed(void)
     while (!readsallowed && !stopreads &&
            !request_pause && !commserror && readaheadrunning)
     {
-        generalWait.wait(&rwlock, 1000);
-        if (!readsallowed && t.elapsed() > 1000)
+        generalWait.wait(&rwlock, 2000);
+        if (!readsallowed && t.elapsed() > 2000)
         {
             LOG(VB_GENERAL, LOG_WARNING, LOC +
                 "Taking too long to be allowed to read..");
