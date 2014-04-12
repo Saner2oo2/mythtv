@@ -1084,8 +1084,7 @@ bool RingBuffer::WaitForAvail(int count)
             int elapsed = t.elapsed();
             if (elapsed > 500 && low_buffers && avail >= fill_min)
                 count = avail;
-            else if  (((elapsed > 250) && (elapsed < 500))  ||
-                     ((elapsed >  500) && (elapsed < 750))  ||
+            else if  (((elapsed >  500) && (elapsed < 750)) ||
                      ((elapsed > 1000) && (elapsed < 1250)) ||
                      ((elapsed > 2000) && (elapsed < 2250)) ||
                      ((elapsed > 4000) && (elapsed < 4250)) ||
