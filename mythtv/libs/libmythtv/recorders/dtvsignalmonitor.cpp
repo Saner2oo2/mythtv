@@ -354,11 +354,11 @@ void DTVSignalMonitor::HandlePMT(uint, const ProgramMapTable *pmt)
     if (pmt->ProgramNumber() != (uint)programNumber)
     {
         if (insert_crc(seen_table_crc, *pmt))
-        {
-            LOG(VB_GENERAL, LOG_ERR, LOC +
-                QString("Wrong PMT; pmt->pn(%1) desired(%2)")
-                .arg(pmt->ProgramNumber()).arg(programNumber));
-        }
+        //{
+        //    LOG(VB_GENERAL, LOG_ERR, LOC +
+        //        QString("Wrong PMT; pmt->pn(%1) desired(%2)")
+        //        .arg(pmt->ProgramNumber()).arg(programNumber));
+        //}
         return; // Not the PMT we are looking for...
     }
 
