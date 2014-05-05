@@ -362,11 +362,11 @@ void DTVSignalMonitor::HandlePMT(uint, const ProgramMapTable *pmt)
         return; // Not the PMT we are looking for...
     }
 
-    //if (pmt->IsEncrypted(GetDTVChannel()->GetSIStandard())) {
+    if (pmt->IsEncrypted(GetDTVChannel()->GetSIStandard())) {
     //    LOG(VB_GENERAL, LOG_NOTICE, LOC +
     //        QString("PMT says program %1 is encrypted").arg(programNumber));
-    //    GetStreamData()->TestDecryption(pmt);
-    //}
+        GetStreamData()->TestDecryption(pmt);
+    }
 
     // if PMT contains audio and/or video stream set as matching.
     uint hasAudio = 0;
