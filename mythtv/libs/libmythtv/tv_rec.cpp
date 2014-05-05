@@ -1564,7 +1564,7 @@ void TVRec::HandlePendingRecordings(void)
             .arg(has_rec ? 1 : 0)
             .arg((*it).hasLaterShowing ? 1 : 0);
 
-        LOG(VB_GENERAL, LOG_INFO, LOC + query);
+        //LOG(VB_GENERAL, LOG_INFO, LOC + query);
 
         QStringList msg;
         (*it).info->ToStringList(msg);
