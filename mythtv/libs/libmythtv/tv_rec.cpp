@@ -827,6 +827,17 @@ void TVRec::FinishedRecording(RecordingInfo *curRec, RecordingQuality *recq)
     bool is_good = true;
     if (recq)
     {
+      if (recgrp == "LiveTV") //prevent bogus 'damaged' recording messages in the log
+      {
+        LOG((recq->IsDamaged()) ? VB_GENERAL : VB_RECORD, LOG_INFO,
+            LOC + QString("FinishedRecording(%1)")
+            .arg(curRec->GetTitle()));
+        is_good = !recq->IsDamaged();
+        delete recq;
+        recq = NULL;
+      }
+      else
+      {
         LOG((recq->IsDamaged()) ? VB_GENERAL : VB_RECORD, LOG_INFO,
             LOC + QString("FinishedRecording(%1) %2 recq:%3\n")
             .arg(curRec->MakeUniqueKey())
@@ -835,6 +846,7 @@ void TVRec::FinishedRecording(RecordingInfo *curRec, RecordingQuality *recq)
         is_good = !recq->IsDamaged();
         delete recq;
         recq = NULL;
+      }
     }
 
     RecStatusTypes ors = curRec->GetRecordingStatus();
