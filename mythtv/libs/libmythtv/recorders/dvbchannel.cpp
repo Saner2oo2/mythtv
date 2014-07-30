@@ -1020,11 +1020,11 @@ double DVBChannel::GetSignalStrength(bool *ok) const
     uint16_t sig = 0;
 
     int ret = ioctl(fd_frontend, FE_READ_SIGNAL_STRENGTH, &sig);
-    //if (ret < 0)
-    //{
-    //    LOG(VB_GENERAL, LOG_ERR, LOC +
-    //        "Getting Frontend signal strength failed." + ENO);
-    //}
+    if (ret < 0)
+    {
+        LOG(VB_CHANNEL, LOG_ERR, LOC +
+            "Getting Frontend signal strength failed." + ENO);
+    }
 
     if (ok)
         *ok = (0 == ret);
@@ -1049,11 +1049,11 @@ double DVBChannel::GetSNR(bool *ok) const
 
     uint16_t snr = 0;
     int ret = ioctl(fd_frontend, FE_READ_SNR, &snr);
-    //if (ret < 0)
-    //{
-    //    LOG(VB_GENERAL, LOG_ERR, LOC +
-    //        "Getting Frontend signal/noise ratio failed." + ENO);
-    //}
+    if (ret < 0)
+    {
+        LOG(VB_CHANNEL, LOG_ERR, LOC +
+            "Getting Frontend signal/noise ratio failed." + ENO);
+    }
 
     if (ok)
         *ok = (0 == ret);
@@ -1075,11 +1075,11 @@ double DVBChannel::GetBitErrorRate(bool *ok) const
 
     uint32_t ber = 0;
     int ret = ioctl(fd_frontend, FE_READ_BER, &ber);
-    //if (ret < 0)
-    //{
-    //    LOG(VB_GENERAL, LOG_ERR, LOC +
-    //        "Getting Frontend signal error rate failed." + ENO);
-    //}
+    if (ret < 0)
+    {
+        LOG(VB_CHANNEL, LOG_ERR, LOC +
+            "Getting Frontend signal error rate failed." + ENO);
+    }
 
     if (ok)
         *ok = (0 == ret);
@@ -1101,11 +1101,11 @@ double DVBChannel::GetUncorrectedBlockCount(bool *ok) const
 
     uint32_t ublocks = 0;
     int ret = ioctl(fd_frontend, FE_READ_UNCORRECTED_BLOCKS, &ublocks);
-    //if (ret < 0)
-    //{
-    //    LOG(VB_GENERAL, LOG_ERR, LOC +
-    //        "Getting Frontend uncorrected block count failed." + ENO);
-    //}
+    if (ret < 0)
+    {
+        LOG(VB_CHANNEL, LOG_ERR, LOC +
+            "Getting Frontend uncorrected block count failed." + ENO);
+    }
 
     if (ok)
         *ok = (0 == ret);
