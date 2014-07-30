@@ -82,7 +82,6 @@ DVBSignalMonitor::DVBSignalMonitor(int db_cardnum, DVBChannel* _channel,
 #define DVB_IO(FLAG, METHOD, MSG) \
   do { if (HasFlags(FLAG)) { bool ok; _channel->METHOD(&ok); \
           if (!ok) { \
-              LOG(VB_GENERAL, LOG_WARNING, LOC+"Cannot "+MSG+ENO); \
               rmflags |= FLAG; } \
           else { \
               LOG(VB_CHANNEL, LOG_INFO, LOC + "Can " + MSG); } } } while (false)
