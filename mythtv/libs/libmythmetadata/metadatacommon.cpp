@@ -423,6 +423,37 @@ ArtworkList MetadataLookup::GetArtwork(VideoArtworkType type) const
     return ret;
 }
 
+LookupType MetadataLookup::GetSubtype() const
+{
+    if (m_inetref.isEmpty() ||
+        m_inetref == MetaGrabberScript::CleanedInetref(m_inetref) ||
+        (m_subtype != kProbableMovie && m_subtype != kProbableTelevision &&
+         m_subtype != kProbableGenericTelevision))
+    {
+        // can't determine subtype from inetref
+        return m_subtype;
+    }
+
+    MetaGrabberScript grabber =
+        MetaGrabberScript::GetGrabber(m_subtype == kProbableMovie ?
+                                        kGrabberMovie : kGrabberTelevision,
+                                      this);
+
+    if (!grabber.IsValid())
+    {
+        return m_subtype;
+    }
+    switch (grabber.GetType())
+    {
+        case kGrabberMovie:
+            return kProbableMovie;
+        case kGrabberTelevision:
+            return kProbableTelevision;
+        default:
+            return m_subtype;
+    }
+}
+
 void MetadataLookup::toMap(InfoMap &metadataMap)
 {
     metadataMap["filename"] = m_filename;
@@ -1496,68 +1527,4 @@ QDateTime RFC822TimeToQDateTime(const QString& t)
     return result;
 }
 
-MetaGrabberScript::MetaGrabberScript(
-    const QString &name,
-    const QString &author,
-    const QString &thumbnail,
-    const QString &command,
-    const GrabberType type,
-    const QString &typestring,
-    const QString &description,
-    const float version
-    ) :
-    m_name(name),
-    m_author(author),
-    m_thumbnail(thumbnail),
-    m_command(command),
-    m_type(type),
-    m_typestring(typestring),
-    m_description(description),
-    m_version(version)
-{
-}
 
-MetaGrabberScript::~MetaGrabberScript()
-{
-}
-
-MetaGrabberScript* ParseGrabberVersion(const QDomElement& item)
-{
-    QString name, author, thumbnail, command, description, typestring;
-    float version = 0;
-    GrabberType type = kGrabberMovie;
-
-    name = item.firstChildElement("name").text();
-    author = item.firstChildElement("author").text();
-    thumbnail = item.firstChildElement("thumbnail").text();
-    command = item.firstChildElement("command").text();
-    description = item.firstChildElement("description").text();
-    version = item.firstChildElement("version").text().toFloat();
-    typestring = item.firstChildElement("type").text();
-
-    if (!typestring.isEmpty())
-    {
-        if (typestring.toLower() == "movie")
-            type = kGrabberMovie;
-        else if (typestring.toLower() == "television")
-            type = kGrabberTelevision;
-        else if (typestring.toLower() == "game")
-            type = kGrabberGame;
-        else if (typestring.toLower() == "music")
-            type = kGrabberMusic;
-    }
-
-    return new MetaGrabberScript(name, author, thumbnail, command,
-                             type, typestring, description, version);
-}
-
-void MetaGrabberScript::toMap(InfoMap &metadataMap)
-{
-    metadataMap["name"] = m_name;
-    metadataMap["author"] = m_author;
-    metadataMap["thumbnailfilename"] = m_thumbnail;
-    metadataMap["command"] = m_command;
-    metadataMap["description"] = m_description;
-    metadataMap["version"] = QString::number(m_version);
-    metadataMap["type"] = m_typestring;
-}
