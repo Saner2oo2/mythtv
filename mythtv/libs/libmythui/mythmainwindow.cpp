@@ -535,14 +535,15 @@ MythMainWindow::MythMainWindow(const bool useDB)
 
     int idletime = gCoreContext->GetNumSetting("FrontendIdleTimeout",
                                                STANDBY_TIMEOUT);
-    if (idletime <= 0)
-        idletime = STANDBY_TIMEOUT;
+    if (idletime < 0)
+        idletime = 0;
 
     d->idleTimer = new QTimer(this);
     d->idleTimer->setSingleShot(false);
     d->idleTimer->setInterval(1000 * 60 * idletime); // 30 minutes
     connect(d->idleTimer, SIGNAL(timeout()), SLOT(IdleTimeout()));
-    d->idleTimer->start();
+    if (idletime > 0)
+        d->idleTimer->start();
 }
 
 MythMainWindow::~MythMainWindow()
@@ -2609,12 +2610,12 @@ QSize MythMainWindow::NormSize(const QSize &size)
 
 int MythMainWindow::NormX(const int x)
 {
-    return (int)(x * d->wmult);
+    return (int)(qRound(x * d->wmult));
 }
 
 int MythMainWindow::NormY(const int y)
 {
-    return (int)(y * d->hmult);
+    return (int)(qRound(y * d->hmult));
 }
 
 void MythMainWindow::SetScalingFactors(float wmult, float hmult)
