@@ -2136,8 +2136,8 @@ bool Scheduler::HandleReschedule(void)
             continue;
         }
 
-        LOG(VB_GENERAL, LOG_INFO, QString("Reschedule requested for %1")
-            .arg(request.join(" | ")));
+        //LOG(VB_GENERAL, LOG_INFO, QString("Reschedule requested for %1")
+            //.arg(request.join(" | ")));
 
         if (tokens[0] == "MATCH")
         {
@@ -2250,7 +2250,7 @@ bool Scheduler::HandleReschedule(void)
                 "= %.2f match + %.2f check + %.2f place",
                 (int)reclist.size(), matchTime + checkTime + placeTime,
                 matchTime, checkTime, placeTime);
-    LOG(VB_GENERAL, LOG_INFO, msg);
+    //LOG(VB_GENERAL, LOG_INFO, msg);
 
     fsInfoCacheFillTime = MythDate::current().addSecs(-1000);
 
