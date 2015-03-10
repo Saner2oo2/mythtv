@@ -1424,11 +1424,11 @@ int HttpStatus::PrintMachineInfo( QTextStream &os, QDomElement info )
                    << MythDate::toString(thru, MythDate::kDatabase);
 
                 if (nDays > 0)
-                    os << " " << QObject::tr("(%n day(s))", "", nDays);
+                    os << " " << QObject::tr("(%n days)", "", nDays);
 
                 os << ".";
 
-                if (nDays <= 3)
+                if (nDays <= 2)
                     os << " <strong>WARNING</strong>: is mythfilldatabase running?";
             }
             else
